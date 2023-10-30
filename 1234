@@ -1,0 +1,45 @@
+1 Функция для выполнения запроса к API и получения факта про случайный год
+
+async function fetchYearFact() {
+  const response = await fetch('http://numbersapi.com/random/year');
+  const data = await response.text();
+  return data;
+}
+
+2  Основная функция для получения 100 фактов и фильтрации по месяцу и дате
+
+async function main() {
+  const factArray = [];
+
+  for (let i = 0; i < 100; i++) {
+    const yearFact = await fetchYearFact();
+
+3 Проверяем, содержит ли факт информацию о месяце и дате
+
+    if (/Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec\s\d{1,2}(st|nd|rd|th)/.test(yearFact)) {
+      factArray.push(yearFact);
+    }
+  }
+
+
+  Проверяем, что массив не пустой
+
+  console.assert(factArray.length > 0, 'Массив не должен быть пустым');
+
+ Проверяем, что массив пустой
+
+  // console.assert(factArray.length === 0, 'Массив должен быть пустым');
+
+ Проверяем, что массив содержит более 5 элементов
+
+  console.assert(factArray.length > 5, 'Массив должен содержать более 5 элементов');
+
+ Проверяем, что длина каждого элемента массива >= 10 символов
+
+  factArray.forEach((fact) => {
+    console.assert(fact.length >= 10, 'Длина элемента массива должна быть больше или равна 10 символам');
+  });
+}
+
+// Вызываем основную функцию
+main();
